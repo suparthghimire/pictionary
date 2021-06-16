@@ -9,8 +9,8 @@ const eraser = document.querySelector("#eraser");
 let ctx = canvas.getContext("2d");
 import {
   append_chat,
-  get_username,
   render_all_users,
+  get_username,
   set_username,
 } from "./utils/ui_interaction.js";
 
@@ -145,15 +145,15 @@ chat_form.addEventListener("submit", (e) => {
   const message = chat_form.chat_message.value;
   if (message.trim() === "") {
     document.querySelector(".error").textContent =
-      "Warinig: Message Cannot be Empty";
+      "Warning: Message Cannot be Empty";
   } else {
     document.querySelector(".error").textContent = "";
     socket.emit("message_send", {
-      username: "User",
+      username: get_username(),
       message,
     });
   }
-  append_chat({ username: "User", message });
+  append_chat({ username: get_username(), message });
 });
 
 /*--------SOCKET--------*/
