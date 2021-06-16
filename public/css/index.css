@@ -23,3 +23,20 @@ body {
     overflow-y: hidden;
     background: #1a1a1a;
 }
+
+.user-container {
+    background: #161616;
+}
+
+.user-container,
+.chat {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chat {
+    background: #161616;
+    position: relative;
+}
