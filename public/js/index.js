@@ -6,6 +6,8 @@ const reset_canvas = document.querySelector("#reset-canvas");
 
 let ctx = canvas.getContext("2d");
 
+const socket = io();
+
 const options = {
   stroke_color: "black",
   stroke_size: stroke_size.value,
@@ -55,7 +57,6 @@ const draw = (position) => {
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.globalCompositeOperation = "source-over";
-
   ctx.lineTo(position.x, position.y);
   ctx.stroke();
 };
