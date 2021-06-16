@@ -25,4 +25,14 @@ const append_chat = ({ username, message }) => {
   ul.appendChild(li);
   ul.scrollTop = ul.clientHeight;
 };
-export { append_chat, set_username, get_username };
+const render_all_users = (users) => {
+  const user_list = document.querySelector("#user_list");
+  user_list.innerHTML = "";
+  users.forEach((user) => {
+    const li = document.createElement("li");
+    li.classList.add("item");
+    li.textContent = user.username;
+    user_list.appendChild(li);
+  });
+};
+export { append_chat, set_username, get_username, render_all_users };

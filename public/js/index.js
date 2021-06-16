@@ -8,9 +8,12 @@ let ctx = canvas.getContext("2d");
 import {
   append_chat,
   get_username,
+  render_all_users,
   set_username,
 } from "./utils/ui_interaction.js";
+
 const socket = io();
+
 if (!get_username()) {
   set_username();
 }
@@ -101,12 +104,15 @@ const mouse_move = (e) => {
 
 canvas.addEventListener("mousedown", () => {
   mouse_down();
+  socket.emit("mouse_down");
 });
 canvas.addEventListener("mousemove", (e) => {
   mouse_move(e);
+  socket.emit("mouse_move", { clientX: e.clientX, clientY: e.clientY });
 });
 canvas.addEventListener("mouseup", () => {
   mouse_up();
+  socket.emit("mouse_up");
 });
 bg_color_picker.addEventListener("input", () => {
   set_bg_color(bg_color_picker.value);
@@ -137,11 +143,24 @@ chat_form.addEventListener("submit", (e) => {
   }
   append_chat({ username: "User", message });
 });
+
+/*--------SOCKET--------*/
 socket.on("room_bot_message", ({ message, username }) => {
   append_chat({ message, username });
 });
 socket.on("message_recieve", ({ username, message }) => {
   append_chat({ username, message });
 });
-
+socket.on("all_users", ({ users }) => {
+  render_all_users(users);
+});
+socket.on("mouse_down", () => {
+  mouse_down();
+});
+socket.on("mouse_up", () => {
+  mouse_up();
+});
+socket.on("mouse_move", (e) => {
+  mouse_move(e);
+});
 apply_default_settings();

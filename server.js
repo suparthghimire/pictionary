@@ -1,7 +1,7 @@
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
-const { add_user, remove_user } = require("./utils/users");
+const { add_user, remove_user, get_all_users } = require("./utils/users");
 const app = express();
 const server = require("http").createServer(app);
 
@@ -23,10 +23,22 @@ io.on("connection", (socket) => {
         message: `${username} Has Joined`,
         username: "Room Bot",
       });
+      io.emit("all_users", { users: get_all_users() });
     }
   });
   socket.on("message_send", ({ username, message }) => {
     socket.broadcast.emit("message_recieve", { username, message });
+  });
+
+  socket.on("mouse_down", () => {
+    socket.broadcast.emit("mouse_down");
+  });
+  socket.on("mouse_up", () => {
+    socket.broadcast.emit("mouse_up");
+  });
+
+  socket.on("mouse_move", (e) => {
+    socket.broadcast.emit("mouse_move", e);
   });
 
   socket.on("disconnect", () => {
@@ -36,6 +48,7 @@ io.on("connection", (socket) => {
         message: `${removed_user.username} Has Left`,
         username: "Room Bot",
       });
+      io.emit("all_users", { users: get_all_users() });
     }
   });
 });
