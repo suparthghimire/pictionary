@@ -1,17 +1,18 @@
 const canvas = document.querySelector("canvas");
 const bg_color_picker = document.querySelector("#bg_color_picker");
 const stroke_color_picker = document.querySelector("#stroke_color_picker");
+const stroke_size = document.querySelector("#stroke_size");
 
 let ctx = canvas.getContext("2d");
 
 const options = {
   stroke_color: "black",
-  strokeSize: 5,
+  stroke_size: stroke_size.value,
 };
 
 const defaultSettings = {
   canvasDimension: 600,
-  strokeSize: 5,
+  stroke_size: 5,
   bgColor: "#ffffff",
   stroke_color: "#000000",
 };
@@ -23,19 +24,25 @@ const set_stroke_color = (color) => {
   options.stroke_color = color;
   stroke_color_picker.value = color;
 };
+const set_stroke_weight = (size) => {
+  document.querySelector("#current_stroke_size_value").textContent =
+    stroke_size.value;
+  stroke_size.value = size;
+  options.stroke_size = parseInt(size);
+};
 
 const apply_default_settings = () => {
   canvas.width = defaultSettings.canvasDimension;
   canvas.height = defaultSettings.canvasDimension;
   document.querySelector("#current_stroke_size_value").textContent =
-    defaultSettings.strokeSize;
+    defaultSettings.stroke_size;
   set_bg_color(defaultSettings.bgColor);
 };
 apply_default_settings();
 
 const draw = (position) => {
   ctx.strokeStyle = options.stroke_color;
-  ctx.lineWidth = options.strokeSize;
+  ctx.lineWidth = options.stroke_size;
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.globalCompositeOperation = "source-over";
@@ -44,7 +51,7 @@ const draw = (position) => {
   ctx.stroke();
 };
 const erase = (position) => {
-  ctx.lineWidth = options.strokeSize;
+  ctx.lineWidth = options.stroke_size;
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.globalCompositeOperation = "destination-out";
@@ -88,4 +95,7 @@ bg_color_picker.addEventListener("input", () => {
 });
 stroke_color_picker.addEventListener("input", () => {
   set_stroke_color(stroke_color_picker.value);
+});
+stroke_size.addEventListener("input", () => {
+  set_stroke_weight(stroke_size.value);
 });
