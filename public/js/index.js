@@ -3,6 +3,8 @@ const bg_color_picker = document.querySelector("#bg_color_picker");
 const stroke_color_picker = document.querySelector("#stroke_color_picker");
 const stroke_size = document.querySelector("#stroke_size");
 const reset_canvas = document.querySelector("#reset-canvas");
+const pencil = document.querySelector("#pencil");
+const eraser = document.querySelector("#eraser");
 
 let ctx = canvas.getContext("2d");
 import {
@@ -126,6 +128,12 @@ stroke_size.addEventListener("input", () => {
 reset_canvas.addEventListener("click", () => {
   clear_canvas();
 });
+pencil.addEventListener("input", () => {
+  socket.emit("pencil_checked");
+});
+eraser.addEventListener("input", () => {
+  socket.emit("eraser_checked");
+});
 
 const chat_form = document.querySelector("#chat-form");
 chat_form.addEventListener("submit", (e) => {
@@ -162,5 +170,13 @@ socket.on("mouse_up", () => {
 });
 socket.on("mouse_move", (e) => {
   mouse_move(e);
+});
+socket.on("pencil_checked", () => {
+  pencil.checked = true;
+  eraser.checked = false;
+});
+socket.on("eraser_checked", () => {
+  eraser.checked = true;
+  pencil.checked = false;
 });
 apply_default_settings();

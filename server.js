@@ -40,7 +40,12 @@ io.on("connection", (socket) => {
   socket.on("mouse_move", (e) => {
     socket.broadcast.emit("mouse_move", e);
   });
-
+  socket.on("pencil_checked", () => {
+    socket.broadcast.emit("pencil_checked");
+  });
+  socket.on("eraser_checked", () => {
+    socket.broadcast.emit("eraser_checked");
+  });
   socket.on("disconnect", () => {
     const removed_user = remove_user(socket.id);
     if (removed_user) {
