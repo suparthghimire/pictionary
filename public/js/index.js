@@ -118,9 +118,11 @@ canvas.addEventListener("mouseup", () => {
 });
 bg_color_picker.addEventListener("input", () => {
   set_bg_color(bg_color_picker.value);
+  socket.emit("bg_color_change", bg_color_picker.value);
 });
 stroke_color_picker.addEventListener("input", () => {
   set_stroke_color(stroke_color_picker.value);
+  socket.emit("stroke_color_change", stroke_color_picker.value);
 });
 stroke_size.addEventListener("input", () => {
   set_stroke_weight(stroke_size.value);
@@ -178,5 +180,11 @@ socket.on("pencil_checked", () => {
 socket.on("eraser_checked", () => {
   eraser.checked = true;
   pencil.checked = false;
+});
+socket.on("bg_color_change", (value) => {
+  set_bg_color(value);
+});
+socket.on("stroke_color_change", (value) => {
+  set_stroke_color(value);
 });
 apply_default_settings();

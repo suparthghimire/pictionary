@@ -46,6 +46,12 @@ io.on("connection", (socket) => {
   socket.on("eraser_checked", () => {
     socket.broadcast.emit("eraser_checked");
   });
+  socket.on("bg_color_change", (value) => {
+    socket.broadcast.emit("bg_color_change", value);
+  });
+  socket.on("stroke_color_change", (value) => {
+    socket.broadcast.emit("stroke_color_change", value);
+  });
   socket.on("disconnect", () => {
     const removed_user = remove_user(socket.id);
     if (removed_user) {
