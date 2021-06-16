@@ -69,3 +69,28 @@ body {
     color: white;
     border-radius: 5px;
 }
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+    align-items: center;
+    gap: 5px;
+}
+
+.button {
+    padding: 0.75rem 1rem;
+    background-color: #3a3a3a;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+}
+
+.button:hover,
+.button:focus {
+    outline: none;
+    background: white;
+    color: #2a2a2a;
+}
