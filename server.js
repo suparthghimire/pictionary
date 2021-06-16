@@ -1,6 +1,7 @@
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
+const { add_user, remove_user } = require("./utils/users");
 const app = express();
 const server = require("http").createServer(app);
 
@@ -14,21 +15,28 @@ app.use("/", require("./routes/index"));
 
 // socket
 io.on("connection", (socket) => {
+  const user_id = socket.id;
   socket.on("user_join", ({ username }) => {
-    socket.broadcast.emit("room_bot_message", {
-      message: `${username} Joined`,
-      username: "Room Bot",
-    });
+    const user_add = add_user({ user_id, username });
+    if (user_add) {
+      socket.broadcast.emit("room_bot_message", {
+        message: `${username} Has Joined`,
+        username: "Room Bot",
+      });
+    }
   });
   socket.on("message_send", ({ username, message }) => {
     socket.broadcast.emit("message_recieve", { username, message });
   });
 
   socket.on("disconnect", () => {
-    socket.broadcast.emit("room_bot_message", {
-      message: `Someone Left`,
-      username: "Room Bot",
-    });
+    const removed_user = remove_user(socket.id);
+    if (removed_user) {
+      socket.broadcast.emit("room_bot_message", {
+        message: `${removed_user.username} Has Left`,
+        username: "Room Bot",
+      });
+    }
   });
 });
 
