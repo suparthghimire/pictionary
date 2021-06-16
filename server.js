@@ -15,6 +15,9 @@ app.use("/", require("./routes/index"));
 // socket
 io.on("connection", (socket) => {
   console.log("User Connected");
+  socket.on("message-send", ({ username, message }) => {
+    socket.broadcast.emit("message-recieve", { username, message });
+  });
 });
 
 // socket

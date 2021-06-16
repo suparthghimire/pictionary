@@ -5,7 +5,7 @@ const stroke_size = document.querySelector("#stroke_size");
 const reset_canvas = document.querySelector("#reset-canvas");
 
 let ctx = canvas.getContext("2d");
-
+import { append_chat } from "./utils/ui_interaction.js";
 const socket = io();
 
 const options = {
@@ -111,6 +111,27 @@ stroke_size.addEventListener("input", () => {
 });
 reset_canvas.addEventListener("click", () => {
   clear_canvas();
+});
+
+const chat_form = document.querySelector("#chat-form");
+chat_form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const message = chat_form.chat_message.value;
+  if (message.trim() === "") {
+    document.querySelector(".error").textContent =
+      "Warinig: Message Cannot be Empty";
+  } else {
+    document.querySelector(".error").textContent = "";
+    socket.emit("message-send", {
+      username: "User",
+      message,
+    });
+  }
+  append_chat({ username: "User", message });
+});
+
+socket.on("message-recieve", ({ username, message }) => {
+  append_chat({ username, message });
 });
 
 apply_default_settings();
