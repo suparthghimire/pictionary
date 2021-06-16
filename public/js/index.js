@@ -2,6 +2,7 @@ const canvas = document.querySelector("canvas");
 const bg_color_picker = document.querySelector("#bg_color_picker");
 const stroke_color_picker = document.querySelector("#stroke_color_picker");
 const stroke_size = document.querySelector("#stroke_size");
+const reset_canvas = document.querySelector("#reset-canvas");
 
 let ctx = canvas.getContext("2d");
 
@@ -11,9 +12,9 @@ const options = {
 };
 
 const defaultSettings = {
-  canvasDimension: 600,
+  canvas_dimension: 600,
   stroke_size: 5,
-  bgColor: "#ffffff",
+  bg_color: "#ffffff",
   stroke_color: "#000000",
 };
 const set_bg_color = (color) => {
@@ -32,13 +33,21 @@ const set_stroke_weight = (size) => {
 };
 
 const apply_default_settings = () => {
-  canvas.width = defaultSettings.canvasDimension;
-  canvas.height = defaultSettings.canvasDimension;
+  canvas.width = defaultSettings.canvas_dimension;
+  canvas.height = defaultSettings.canvas_dimension;
+  options.stroke_color = defaultSettings.stroke_size;
+  options.stroke_size = defaultSettings.stroke_size;
+  bg_color_picker.value = defaultSettings.bg_color;
+  stroke_color_picker.value = defaultSettings.stroke_color;
+  stroke_size.value = defaultSettings.stroke_size;
   document.querySelector("#current_stroke_size_value").textContent =
     defaultSettings.stroke_size;
-  set_bg_color(defaultSettings.bgColor);
+  set_bg_color(defaultSettings.bg_color);
 };
-apply_default_settings();
+const clear_canvas = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  apply_default_settings();
+};
 
 const draw = (position) => {
   ctx.strokeStyle = options.stroke_color;
@@ -99,3 +108,8 @@ stroke_color_picker.addEventListener("input", () => {
 stroke_size.addEventListener("input", () => {
   set_stroke_weight(stroke_size.value);
 });
+reset_canvas.addEventListener("click", () => {
+  clear_canvas();
+});
+
+apply_default_settings();
