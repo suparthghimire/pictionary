@@ -53,3 +53,19 @@ body {
 #chat-message {
     width: 100%;
 }
+
+.list {
+    display: grid;
+    gap: 10px;
+    max-height: calc(100vh - 120px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+.item {
+    padding: 10px;
+    background-color: #2a2a2a;
+    color: white;
+    border-radius: 5px;
+}
