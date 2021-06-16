@@ -41,8 +41,7 @@ const set_stroke_color = (color) => {
   stroke_color_picker.value = color;
 };
 const set_stroke_weight = (size) => {
-  document.querySelector("#current_stroke_size_value").textContent =
-    stroke_size.value;
+  document.querySelector("#current_stroke_size_value").textContent = size;
   stroke_size.value = size;
   options.stroke_size = parseInt(size);
 };
@@ -55,8 +54,7 @@ const apply_default_settings = () => {
   bg_color_picker.value = defaultSettings.bg_color;
   stroke_color_picker.value = defaultSettings.stroke_color;
   stroke_size.value = defaultSettings.stroke_size;
-  document.querySelector("#current_stroke_size_value").textContent =
-    defaultSettings.stroke_size;
+  set_stroke_weight(defaultSettings.stroke_size);
   set_bg_color(defaultSettings.bg_color);
 };
 const clear_canvas = () => {
@@ -126,6 +124,7 @@ stroke_color_picker.addEventListener("input", () => {
 });
 stroke_size.addEventListener("input", () => {
   set_stroke_weight(stroke_size.value);
+  socket.emit("stroke_size_change", stroke_size.value);
 });
 reset_canvas.addEventListener("click", () => {
   clear_canvas();
@@ -186,5 +185,8 @@ socket.on("bg_color_change", (value) => {
 });
 socket.on("stroke_color_change", (value) => {
   set_stroke_color(value);
+});
+socket.on("stroke_size_change", (value) => {
+  set_stroke_weight(value);
 });
 apply_default_settings();
