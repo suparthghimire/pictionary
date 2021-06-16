@@ -40,3 +40,16 @@ body {
     background: #161616;
     position: relative;
 }
+
+#chat-form {
+    border-top: 1px solid #474747;
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 20px);
+    color: white;
+    padding-top: 10px;
+}
+
+#chat-message {
+    width: 100%;
+}
