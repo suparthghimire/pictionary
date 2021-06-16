@@ -1,15 +1,29 @@
 const canvas = document.querySelector("canvas");
+const bg_color_picker = document.querySelector("#bg_color_picker");
+const stroke_color_picker = document.querySelector("#stroke_color_picker");
+
 let ctx = canvas.getContext("2d");
+
+const options = {
+  stroke_color: "black",
+  strokeSize: 5,
+};
 
 const defaultSettings = {
   canvasDimension: 600,
   strokeSize: 5,
   bgColor: "#ffffff",
-  strokeColor: "#000000",
+  stroke_color: "#000000",
 };
 const set_bg_color = (color) => {
   canvas.style.backgroundColor = color;
+  bg_color_picker.value = color;
 };
+const set_stroke_color = (color) => {
+  options.stroke_color = color;
+  stroke_color_picker.value = color;
+};
+
 const apply_default_settings = () => {
   canvas.width = defaultSettings.canvasDimension;
   canvas.height = defaultSettings.canvasDimension;
@@ -20,8 +34,8 @@ const apply_default_settings = () => {
 apply_default_settings();
 
 const draw = (position) => {
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 5;
+  ctx.strokeStyle = options.stroke_color;
+  ctx.lineWidth = options.strokeSize;
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.globalCompositeOperation = "source-over";
@@ -30,7 +44,7 @@ const draw = (position) => {
   ctx.stroke();
 };
 const erase = (position) => {
-  ctx.lineWidth = 5;
+  ctx.lineWidth = options.strokeSize;
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.globalCompositeOperation = "destination-out";
@@ -68,4 +82,10 @@ canvas.addEventListener("mousemove", (e) => {
 });
 canvas.addEventListener("mouseup", () => {
   mouse_up();
+});
+bg_color_picker.addEventListener("input", () => {
+  set_bg_color(bg_color_picker.value);
+});
+stroke_color_picker.addEventListener("input", () => {
+  set_stroke_color(stroke_color_picker.value);
 });
