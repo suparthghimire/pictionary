@@ -26,7 +26,7 @@ The rules of the game are simple
 
 **Server:** Node, Express, Socket.IO
 
-## [Demo](#)
+## [Demo](https://pictionary-suparth.herokuapp.com/)
 
 The project is in development phase. Thus, if any bug is encountered, feel free to create an issue in GitHub.
 
