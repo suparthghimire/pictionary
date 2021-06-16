@@ -107,6 +107,23 @@ body {
     align-items: center;
 }
 
+#pencil:checked~label,
+#eraser:checked~label {
+    background: white;
+    color: #2a2a2a;
+}
+
+.no-bg {
+    background-color: transparent;
+}
+
+.error {
+    font-size: 0.7rem;
+    color: red;
+    margin-top: 10px;
+    font-style: italic;
+}
+
 .button {
     padding: 0.75rem 1rem;
     background-color: #3a3a3a;
@@ -139,4 +156,9 @@ input[type="color"] {
 
 .d-none {
     display: none;
+}
+
+.bot_message {
+    background-color: rgb(111, 255, 195);
+    color: #2a2a2a;
 }
