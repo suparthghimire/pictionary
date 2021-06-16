@@ -54,6 +54,23 @@ body {
     width: 100%;
 }
 
+.chat-message {
+    margin-top: 5px;
+    background: #161616;
+    border: 0;
+    border: 1px solid white;
+    border-radius: 2px;
+    color: white;
+    padding: 10px;
+    line-height: 20px;
+    width: 100%;
+}
+
+.chat-message:hover,
+.chat-message:focus {
+    outline: none;
+}
+
 .list {
     display: grid;
     gap: 10px;
@@ -93,4 +110,9 @@ body {
     outline: none;
     background: white;
     color: #2a2a2a;
+}
+
+input[type="color"] {
+    background: transparent;
+    border: 0;
 }
