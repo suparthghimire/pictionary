@@ -1,0 +1,48 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+        link(rel="stylesheet", href="/css/index.css")
+    body 
+    .user-container 
+        ul#user_list.list
+            
+    .draw-container
+        .draw-wrapper
+            ul.menu
+                li.menu-item.no-bg
+                    div
+                        input#pencil.d-none(type="radio", name="pencil" checked) 
+                        label(for="pencil").button.pencil Pencil
+                    div
+                        input#eraser.d-none(type="radio", name="pencil") 
+                        label(for="eraser").button.eraser Eraser
+                li.menu-item
+                    label(for="bg_color_picker") Bg Color
+                    input#bg_color_picker(type="color", name="bg_color_picker")
+                li.menu-item
+                    label(for="stroke_color_picker") Stroke Color
+                    input#stroke_color_picker(type="color", name="stroke_color_picker")
+                li.menu-item
+                    label(for="stroke-size") Stroke Size (
+                        span#current_stroke_size_value 5
+                        span )
+                    input#stroke_size(type="range", min=5  max = 20 name="stroke_size" value=5)
+                
+                button.button#reset-canvas Clear Canvas
+            canvas#canvas
+    .chat 
+        ul#chat-message-list.list 
+            li.item.bot_message
+                h5.username Room Bot
+                p.message-text Chat Here
+        hr
+        form#chat-form(action="#")
+            label(for="chat_message") Enter Your Message
+            input.chat-message#chat_message(name="chat_message" autocomplete="off") 
+            span.error
+script(src="/socket.io/socket.io.js") 
+script(type="module" src="/js/index.js")  
