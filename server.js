@@ -55,6 +55,9 @@ io.on("connection", (socket) => {
   socket.on("stroke_size_change", (value) => {
     socket.broadcast.emit("stroke_size_change", value);
   });
+  socket.on("reset_canvas", () => {
+    socket.broadcast.emit("reset_canvas");
+  });
   socket.on("disconnect", () => {
     const removed_user = remove_user(socket.id);
     if (removed_user) {

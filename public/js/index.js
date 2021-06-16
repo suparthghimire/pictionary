@@ -135,7 +135,10 @@ pencil.addEventListener("input", () => {
 eraser.addEventListener("input", () => {
   socket.emit("eraser_checked");
 });
-
+reset_canvas.addEventListener("click", () => {
+  clear_canvas();
+  socket.emit("reset_canvas");
+});
 const chat_form = document.querySelector("#chat-form");
 chat_form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -189,4 +192,8 @@ socket.on("stroke_color_change", (value) => {
 socket.on("stroke_size_change", (value) => {
   set_stroke_weight(value);
 });
+socket.on("reset_canvas", () => {
+  clear_canvas();
+});
+
 apply_default_settings();
