@@ -14,9 +14,21 @@ app.use("/", require("./routes/index"));
 
 // socket
 io.on("connection", (socket) => {
-  console.log("User Connected");
-  socket.on("message-send", ({ username, message }) => {
-    socket.broadcast.emit("message-recieve", { username, message });
+  socket.on("user_join", ({ username }) => {
+    socket.broadcast.emit("room_bot_message", {
+      message: `${username} Joined`,
+      username: "Room Bot",
+    });
+  });
+  socket.on("message_send", ({ username, message }) => {
+    socket.broadcast.emit("message_recieve", { username, message });
+  });
+
+  socket.on("disconnect", () => {
+    socket.broadcast.emit("room_bot_message", {
+      message: `Someone Left`,
+      username: "Room Bot",
+    });
   });
 });
 

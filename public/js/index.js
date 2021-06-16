@@ -5,8 +5,16 @@ const stroke_size = document.querySelector("#stroke_size");
 const reset_canvas = document.querySelector("#reset-canvas");
 
 let ctx = canvas.getContext("2d");
-import { append_chat } from "./utils/ui_interaction.js";
+import {
+  append_chat,
+  get_username,
+  set_username,
+} from "./utils/ui_interaction.js";
 const socket = io();
+if (!get_username()) {
+  set_username();
+}
+socket.emit("user_join", { username: get_username() });
 
 const options = {
   stroke_color: "black",
@@ -122,15 +130,17 @@ chat_form.addEventListener("submit", (e) => {
       "Warinig: Message Cannot be Empty";
   } else {
     document.querySelector(".error").textContent = "";
-    socket.emit("message-send", {
+    socket.emit("message_send", {
       username: "User",
       message,
     });
   }
   append_chat({ username: "User", message });
 });
-
-socket.on("message-recieve", ({ username, message }) => {
+socket.on("room_bot_message", ({ message, username }) => {
+  append_chat({ message, username });
+});
+socket.on("message_recieve", ({ username, message }) => {
   append_chat({ username, message });
 });
 
