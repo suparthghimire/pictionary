@@ -22,42 +22,38 @@ block content
                 button.button.button-block#custom-play-button Play Custom 
             .form-content#random-room
                 h2 Play a Random Game
-                form.random-form#random_join_room(action="#") 
+                form.random-form#random_room_form(action="#") 
                     .form-group 
                         label(for="username") Enter Your Username
-                        input.form-control#username(type="text", name="")
+                        input.form-control#random_room_username(type="text", name="")
                     
-                    button.button.button-block#join_random_room Play with Randoms
+                    button.button.button-block#random_room_btn Play with Randoms
 
             .form-content#custom-room.dissappear
                 h2 Join Game
-                form.random-form#random_join_room(action="#") 
+                form.random-form#custom_room_form_join(action="#") 
                     .form-group 
-                        label(for="username") Enter Your Username
-                        input.form-control#username(type="text", name="")
-                    
-                form.random-form#random_join_room(action="#") 
+                        label(for="custom_room_form_join_username") Enter Your Username
+                        input.form-control#custom_room_form_join_username(type="text", name="username")
                     .form-group 
-                        label(for="username") Enter Your Username
-                        input.form-control#username(type="text", name="")
+                        label(for="custom_room_form_join_room_id") Enter Room ID
+                        input.form-control#custom_room_form_join_room_id(type="text", name="room_id")
                     
-                    button.button.button-block#join_random_room Join Game
+                    button.button.button-block#custom_room_form_join_btn Join Game
                 h2 Create New Game
-                form.random-form#random_join_room(action="#") 
+                form.random-form#custom_room_form_create(action="#") 
                     .form-group 
-                        label(for="username") Enter Your Username
-                        input.form-control#username(type="text", name="")
-                    
-                form.random-form#random_join_room(action="#") 
+                        label(for="custom_room_form_create_username") Enter Your Username
+                        input.form-control#custom_room_form_create_username(type="text", name="username")
                     .form-group 
-                        label(for="username") Your Generated Room ID
+                        label(for="generate-random-room-id") Your Generated Room ID
                         .room-id-readonly-field
-                            input.form-control#generate-random-room-id(type="text", name="" readonly value="Random Room ID")  
+                            input.form-control#generate-random-room-id(type="text", name="room_id" readonly value="Random Room ID")  
                             span#generate-random-room-id-copy-button
                                 i.far.fa-clipboard
                                 span.copy-message 
                                     | Room ID Copied!
-                    button.button.button-block#join_random_room Create Game
+                    button.button.button-block#custom_room_form_join_btn Create Game
 
 block scripts 
-    script(src="/js/index.js") 
+    script(src="/js/index_ui_control.js") 
