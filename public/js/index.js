@@ -1,199 +1,57 @@
-const canvas = document.querySelector("canvas");
-const bg_color_picker = document.querySelector("#bg_color_picker");
-const stroke_color_picker = document.querySelector("#stroke_color_picker");
-const stroke_size = document.querySelector("#stroke_size");
-const reset_canvas = document.querySelector("#reset-canvas");
-const pencil = document.querySelector("#pencil");
-const eraser = document.querySelector("#eraser");
+const random_play_button = document.querySelector("#random-play-button");
+const custom_play_button = document.querySelector("#custom-play-button");
 
-let ctx = canvas.getContext("2d");
-import {
-  append_chat,
-  render_all_users,
-  get_username,
-  set_username,
-} from "./utils/ui_interaction.js";
+const form_area = document.querySelectorAll(".form-content");
+const random_form_area = document.querySelector("#random-room");
+const custom_form_area = document.querySelector("#custom-room");
 
-const socket = io();
-
-if (!get_username()) {
-  set_username();
-}
-socket.emit("user_join", { username: get_username() });
-
-const options = {
-  stroke_color: "black",
-  stroke_size: stroke_size.value,
-};
-
-const defaultSettings = {
-  canvas_dimension: 600,
-  stroke_size: 5,
-  bg_color: "#ffffff",
-  stroke_color: "#000000",
-};
-const set_bg_color = (color) => {
-  canvas.style.backgroundColor = color;
-  bg_color_picker.value = color;
-};
-const set_stroke_color = (color) => {
-  options.stroke_color = color;
-  stroke_color_picker.value = color;
-};
-const set_stroke_weight = (size) => {
-  document.querySelector("#current_stroke_size_value").textContent = size;
-  stroke_size.value = size;
-  options.stroke_size = parseInt(size);
-};
-
-const apply_default_settings = () => {
-  canvas.width = defaultSettings.canvas_dimension;
-  canvas.height = defaultSettings.canvas_dimension;
-  options.stroke_color = defaultSettings.stroke_size;
-  options.stroke_size = defaultSettings.stroke_size;
-  bg_color_picker.value = defaultSettings.bg_color;
-  stroke_color_picker.value = defaultSettings.stroke_color;
-  stroke_size.value = defaultSettings.stroke_size;
-  set_stroke_weight(defaultSettings.stroke_size);
-  set_bg_color(defaultSettings.bg_color);
-};
-const clear_canvas = () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  apply_default_settings();
-};
-
-const draw = (position) => {
-  ctx.strokeStyle = options.stroke_color;
-  ctx.lineWidth = options.stroke_size;
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  ctx.globalCompositeOperation = "source-over";
-  ctx.lineTo(position.x, position.y);
-  ctx.stroke();
-};
-const erase = (position) => {
-  ctx.lineWidth = options.stroke_size;
-  ctx.lineCap = "round";
-  ctx.lineJoin = "round";
-  ctx.globalCompositeOperation = "destination-out";
-  ctx.lineTo(position.x, position.y);
-  ctx.stroke();
-};
-let drawing = false;
-const mouse_up = () => {
-  drawing = false;
-};
-
-const mouse_down = () => {
-  drawing = true;
-  ctx.beginPath();
-};
-const mouse_move = (e) => {
-  if (drawing) {
-    const position = {
-      x: e.clientX - canvas.getBoundingClientRect().left,
-      y: e.clientY - canvas.getBoundingClientRect().top,
-    };
-    if (pencil.checked) {
-      draw(position);
-    } else if (eraser.checked) {
-      erase(position);
+custom_play_button.addEventListener("click", () => {
+  custom_form_area.classList.remove("dissappear");
+  if (!random_form_area.classList.contains("dissappear"))
+    random_form_area.classList.add("dissappear");
+  if (!custom_play_button.classList.contains("btn-active"))
+    custom_play_button.classList.add("btn-active");
+  random_play_button.classList.remove("btn-active");
+  form_area.forEach((area) => {
+    if (!area.classList.contains("custom-visible")) {
+      area.classList.add("custom-form-visible");
     }
-  }
-};
+  });
+});
 
-canvas.addEventListener("mousedown", () => {
-  mouse_down();
-  socket.emit("mouse_down");
+random_play_button.addEventListener("click", () => {
+  random_form_area.classList.remove("dissappear");
+  if (!custom_form_area.classList.contains("dissappear"))
+    custom_form_area.classList.add("dissappear");
+  if (!random_play_button.classList.contains("btn-active"))
+    random_play_button.classList.add("btn-active");
+  custom_play_button.classList.remove("btn-active");
+  form_area.forEach((area) => {
+    area.classList.remove("custom-form-visible");
+  });
 });
-canvas.addEventListener("mousemove", (e) => {
-  mouse_move(e);
-  socket.emit("mouse_move", { clientX: e.clientX, clientY: e.clientY });
-});
-canvas.addEventListener("mouseup", () => {
-  mouse_up();
-  socket.emit("mouse_up");
-});
-bg_color_picker.addEventListener("input", () => {
-  set_bg_color(bg_color_picker.value);
-  socket.emit("bg_color_change", bg_color_picker.value);
-});
-stroke_color_picker.addEventListener("input", () => {
-  set_stroke_color(stroke_color_picker.value);
-  socket.emit("stroke_color_change", stroke_color_picker.value);
-});
-stroke_size.addEventListener("input", () => {
-  set_stroke_weight(stroke_size.value);
-  socket.emit("stroke_size_change", stroke_size.value);
-});
-reset_canvas.addEventListener("click", () => {
-  clear_canvas();
-});
-pencil.addEventListener("input", () => {
-  socket.emit("pencil_checked");
-});
-eraser.addEventListener("input", () => {
-  socket.emit("eraser_checked");
-});
-reset_canvas.addEventListener("click", () => {
-  clear_canvas();
-  socket.emit("reset_canvas");
-});
-const chat_form = document.querySelector("#chat-form");
-chat_form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const message = chat_form.chat_message.value;
-  if (message.trim() === "") {
-    document.querySelector(".error").textContent =
-      "Warning: Message Cannot be Empty";
-  } else {
-    document.querySelector(".error").textContent = "";
-    socket.emit("message_send", {
-      username: get_username(),
-      message,
+
+const generate_random_room_id_textbox = document.querySelector(
+  "#generate-random-room-id"
+);
+
+const generate_random_room_id_copy_button = document.querySelector(
+  "#generate-random-room-id-copy-button"
+);
+
+generate_random_room_id_copy_button.addEventListener("click", () => {
+  const text = generate_random_room_id_textbox.value;
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      const copy_message_element = document.querySelector(".copy-message");
+      if (!copy_message_element.classList.contains(".copy-message-visible"))
+        copy_message_element.classList.add("copy-message-visible");
+      setTimeout(() => {
+        copy_message_element.classList.remove("copy-message-visible");
+      }, 1500);
+    })
+    .catch((err) => {
+      console.error(error);
     });
-  }
-  append_chat({ username: get_username(), message });
 });
-
-/*--------SOCKET--------*/
-socket.on("room_bot_message", ({ message, username }) => {
-  append_chat({ message, username });
-});
-socket.on("message_recieve", ({ username, message }) => {
-  append_chat({ username, message });
-});
-socket.on("all_users", ({ users }) => {
-  render_all_users(users);
-});
-socket.on("mouse_down", () => {
-  mouse_down();
-});
-socket.on("mouse_up", () => {
-  mouse_up();
-});
-socket.on("mouse_move", (e) => {
-  mouse_move(e);
-});
-socket.on("pencil_checked", () => {
-  pencil.checked = true;
-  eraser.checked = false;
-});
-socket.on("eraser_checked", () => {
-  eraser.checked = true;
-  pencil.checked = false;
-});
-socket.on("bg_color_change", (value) => {
-  set_bg_color(value);
-});
-socket.on("stroke_color_change", (value) => {
-  set_stroke_color(value);
-});
-socket.on("stroke_size_change", (value) => {
-  set_stroke_weight(value);
-});
-socket.on("reset_canvas", () => {
-  clear_canvas();
-});
-
-apply_default_settings();

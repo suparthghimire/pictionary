@@ -1,0 +1,144 @@
+.container {
+    display: grid;
+    grid-template-columns: 250px 1fr 350px;
+    min-height: 100vh;
+}
+
+.user-container {
+    background: #161616;
+}
+
+.user-container,
+.chat {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.chat {
+    background: #161616;
+    position: relative;
+}
+
+#chat-form {
+    border-top: 1px solid #474747;
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 20px);
+    color: white;
+    padding-top: 10px;
+}
+
+#chat-message {
+    width: 100%;
+}
+
+.chat-message {
+    margin-top: 5px;
+    background: #161616;
+    border: 0;
+    border: 1px solid white;
+    border-radius: 2px;
+    color: white;
+    padding: 10px;
+    line-height: 20px;
+    width: 100%;
+}
+
+.chat-message:hover,
+.chat-message:focus {
+    outline: none;
+}
+
+.list {
+    display: grid;
+    gap: 10px;
+    max-height: calc(100vh - 120px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+.item {
+    padding: 10px;
+    background-color: #2a2a2a;
+    color: white;
+    border-radius: 5px;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+    align-items: center;
+    gap: 5px;
+}
+
+.menu-item {
+    margin: 10px 0;
+    background-color: #2a2a2a;
+    color: white;
+    width: max-content;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+#pencil:checked~label,
+#eraser:checked~label {
+    background: white;
+    color: #2a2a2a;
+}
+
+.no-bg {
+    background-color: transparent;
+}
+
+.error {
+    font-size: 0.7rem;
+    color: red;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.button {
+    padding: 0.75rem 1rem;
+    background-color: #3a3a3a;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 150ms ease-in-out;
+}
+
+.button:hover,
+.button:focus {
+    outline: none;
+    background: white;
+    color: #2a2a2a;
+}
+
+input[type="color"] {
+    background: transparent;
+    border: 0;
+}
+
+.draw-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.d-none {
+    display: none;
+}
+
+.bot_message {
+    background-color: rgb(111, 255, 195);
+    color: #2a2a2a;
+}
